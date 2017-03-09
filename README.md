@@ -12,4 +12,4 @@ If you already have a running docker daemon and docker-compose just clone this r
 
     docker-compose up
 
-inside the directory.
+inside the directory. The OntoWiki setup is available at `http://localhost:8080/`.
