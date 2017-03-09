@@ -7,3 +7,9 @@ The compose setup uses:
 - and a container with the OntoWiki Source Code `aksw/ontowiki`
 
 For using it you have to install [docker](https://www.docker.com/community-edition) and [docker compose](https://docs.docker.com/compose/install/).
+
+If you already have a running docker daemon and docker-compose just clone this repository and run
+
+    docker-compose up
+
+inside the directory.
