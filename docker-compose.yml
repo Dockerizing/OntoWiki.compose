@@ -35,6 +35,7 @@ services:
     image: aksw/ontowiki
     restart: unless-stopped
     environment:
+      VIRTUOSO_ENV_DBA_PASSWORD: dba
       DBA_PASSWORD: dba
     volumes:
       - ontowiki:/var/www/html/
