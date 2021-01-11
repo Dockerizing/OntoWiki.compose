@@ -34,6 +34,8 @@ services:
   ontowiki:
     image: aksw/ontowiki
     restart: unless-stopped
+    environment:
+      DBA_PASSWORD: dba
     volumes:
       - ontowiki:/var/www/html/
       - models:/models
