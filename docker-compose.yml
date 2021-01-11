@@ -1,30 +1,46 @@
-virtuoso:
-  image: tenforce/virtuoso:1.1.0-virtuoso7.2.4
-  environment:
-    DBA_PASSWORD: dba
-    SPARQL_UPDATE: "true"
-  volumes:
-    - /data
-    - /usr/local/virtuoso-opensource/lib
+version: '3.7'
 
-phpserver:
-  image: aksw/php-5.6-fpm-odbc-virtuoso
-  volumes_from:
-    - ontowiki
-    - virtuoso
-  links:
-    - virtuoso
+services:
+  virtuoso:
+    image: tenforce/virtuoso:1.1.0-virtuoso7.2.4
+    restart: unless-stopped
+    environment:
+      DBA_PASSWORD: dba
+      SPARQL_UPDATE: "true"
+    volumes:
+      - libvirtodbc:/usr/local/virtuoso-opensource/lib
+      - models:/models
 
-nginx:
-  image: aksw/nginx-ontowiki
-  volumes_from:
-    - ontowiki
-  links:
-    - phpserver
-  ports:
-    - "8080:80"
+  phpserver:
+    image: aksw/php-5.6-fpm-odbc-virtuoso
+    restart: unless-stopped
+    volumes:
+      - ontowiki:/var/www/html/
+      - libvirtodbc:/usr/local/virtuoso-opensource/lib
+      - models:/models
+    links:
+      - virtuoso
 
-ontowiki:
-  image: aksw/ontowiki
-  links:
-    - virtuoso
+  nginx:
+    image: aksw/nginx-ontowiki
+    restart: unless-stopped
+    volumes:
+      - ontowiki:/var/www/html/
+    links:
+      - phpserver
+    ports:
+      - "8080:80"
+
+  ontowiki:
+    image: aksw/ontowiki
+    restart: unless-stopped
+    volumes:
+      - ontowiki:/var/www/html/
+      - models:/models
+    links:
+      - virtuoso
+
+volumes:
+    libvirtodbc: {}
+    ontowiki: {}
+    models: {}
